@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>☁️ City Weather | Flood Alert System</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    body {
+      background: linear-gradient(to right, #e3f2fd, #bbdefb);
+      font-family: 'Segoe UI', sans-serif;
+      color: #0d47a1;
+      margin: 0;
+      padding: 30px 20px;
+    }
+
+    h2 {
+      text-align: center;
+      font-size: 2.2em;
+      margin-bottom: 30px;
+      text-shadow: 1px 1px 1px rgba(0,0,0,0.1);
+    }
+
+    form {
+      text-align: center;
+      margin-bottom: 30px;
+    }
+
+    select, button {
+      padding: 12px 20px;
+      font-size: 1em;
+      margin: 10px;
+      border-radius: 8px;
+      border: 1px solid #90caf9;
+      background: #e3f2fd;
+      color: #0d47a1;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+      transition: all 0.3s ease;
+    }
+
+    button {
+      background: #0d47a1;
+      color: white;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background: #1565c0;
+    }
+
+    .weather-box {
+      max-width: 500px;
+      background: white;
+      padding: 25px;
+      border-radius: 12px;
+      margin: 0 auto;
+      box-shadow: 0 6px 16px rgba(0, 0, 0, 0.1);
+    }
+
+    .weather-box p {
+      font-size: 1.1em;
+      margin: 12px 0;
+    }
+
+    .error {
+      text-align: center;
+      color: red;
+      font-weight: bold;
+    }
+
+    @media (max-width: 600px) {
+      select, button {
+        width: 90%;
+        margin: 8px auto;
+      }
+
+      .weather-box {
+        padding: 20px;
+        width: 90%;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <h2>☁️ Weather Information by City</h2>
+
+  <form method="POST">
+    <label for="city">Select City:</label>
+    <select name="city" id="city">
+      {% for city in cities %}
+        <option value="{{ city }}" {% if selected_city == city %}selected{% endif %}>{{ city }}</option>
+      {% endfor %}
+    </select>
+    <button type="submit">Get Weather</button>
+  </form>
+
+  {% if weather %}
+    <div class="weather-box">
+      <p><strong>🌡 Temperature:</strong> {{ weather.temperature }} °C</p>
+      <p><strong>💧 Humidity:</strong> {{ weather.humidity }}%</p>
+      <p><strong>🌬 Wind Speed:</strong> {{ weather.wind_speed }} m/s</p>
+      <p><strong>🌧 Rainfall:</strong> {{ weather.rainfall }} mm</p>
+      <p><strong>📖 Description:</strong> {{ weather.description }}</p>
+      <p><strong>🕒 Checked at:</strong> {{ timestamp }}</p>
+    </div>
+  {% elif error %}
+    <p class="error">❌ {{ error }}</p>
+  {% endif %}
+
+</body>
+</html>

@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>✅ No Flood Risk</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    body {
+      background: linear-gradient(to right, #e8f5e9, #c8e6c9);
+      font-family: 'Segoe UI', sans-serif;
+      color: #1b5e20;
+      margin: 0;
+      padding: 30px 20px;
+    }
+
+    h2 {
+      text-align: center;
+      font-size: 2.5em;
+      color: #2e7d32;
+      margin-bottom: 10px;
+    }
+
+    p {
+      text-align: center;
+      font-size: 1.2em;
+      margin-bottom: 30px;
+    }
+
+    .reassurance {
+      text-align: center;
+      font-size: 1.1em;
+      margin-bottom: 20px;
+      color: #33691e;
+    }
+
+    ul {
+      list-style-type: none;
+      padding: 0;
+      max-width: 700px;
+      margin: auto;
+    }
+
+    li {
+      background: #a5d6a7;
+      margin: 10px 0;
+      padding: 15px 20px;
+      border-radius: 12px;
+      font-size: 1.1em;
+      display: flex;
+      align-items: center;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    }
+
+    li::before {
+      content: "✅";
+      margin-right: 12px;
+      font-size: 1.3em;
+    }
+
+    .safe-msg {
+      text-align: center;
+      margin-top: 30px;
+      font-size: 1em;
+      color: #2e7d32;
+      font-style: italic;
+    }
+
+    @media (max-width: 600px) {
+      li {
+        font-size: 1em;
+        flex-direction: column;
+        align-items: flex-start;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <h2>✅ No Flood Risk Detected</h2>
+  <p>🕒 Checked at: {{ timestamp }}</p>
+
+  <div class="reassurance">🌤 You are safe for now. Stay alert and keep updated. </div>
+
+  <ul>
+    {% for s in status %}
+    <li><strong>{{ s.city }}</strong>: {{ s.message }}</li>
+    {% endfor %}
+  </ul>
+
+  <div class="safe-msg">
+    🙌 Everything looks good at the moment.<br>
+    🧠 Stay aware, stay prepared.<br>
+    📲 We’ll notify you if anything changes.
+  </div>
+
+</body>
+</html>

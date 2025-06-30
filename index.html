@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>🌊 Flood Alert System</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    html, body {
+      height: 100%;
+      width: 100%;
+      font-family: 'Segoe UI', sans-serif;
+      color: #222;
+      overflow: hidden;
+    }
+
+    /* 🔁 Fullscreen Background Video */
+    .bg-video {
+      position: fixed;
+      top: 0; left: 0;
+      width: 100vw;
+      height: 100vh;
+      object-fit: cover;
+      z-index: -1;
+    }
+
+    .content {
+      position: absolute;
+      top: 50%; left: 50%;
+      transform: translate(-50%, -50%);
+      background: rgba(255, 255, 255, 0.85);
+      padding: 40px;
+      border-radius: 16px;
+      text-align: center;
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
+      max-width: 600px;
+      width: 90%;
+    }
+
+    h1 {
+      font-size: 2.5em;
+      margin-bottom: 30px;
+      color: #004d40;
+      text-shadow: 1px 1px 4px #ccc;
+    }
+
+    .btn {
+      width: 100%;
+      margin: 10px 0;
+      padding: 14px;
+      font-size: 1.1em;
+      color: white;
+      border: none;
+      border-radius: 12px;
+      cursor: pointer;
+      transition: background 0.3s ease;
+    }
+
+    .btn.red    { background-color: #e53935; }
+    .btn.red:hover    { background-color: #c62828; }
+
+    .btn.blue   { background-color: #1e88e5; }
+    .btn.blue:hover   { background-color: #1565c0; }
+
+    .btn.green  { background-color: #43a047; }
+    .btn.green:hover  { background-color: #2e7d32; }
+
+    #faq-section {
+      display: none;
+      margin-top: 20px;
+      text-align: left;
+    }
+
+    #faq-select {
+      width: 100%;
+      padding: 10px;
+      margin: 10px 0;
+      font-size: 1em;
+      border-radius: 8px;
+      border: 1px solid #aaa;
+    }
+
+    #faq-answer {
+      margin-top: 10px;
+      background: #e3f2fd;
+      padding: 12px;
+      border-radius: 10px;
+      font-style: italic;
+      color: #0d47a1;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- 🔄 Background Video -->
+  <video autoplay muted loop playsinline class="bg-video">
+    <source src="{{ url_for('static', filename='videos/weather_1.mp4') }}" type="video/mp4">
+    Your browser does not support the video tag.
+  </video>
+
+  <!-- 🌟 Main UI Content -->
+  <div class="content">
+    <h1>🌊 Flood Alert System</h1>
+
+    <form action="/check_flood" method="POST">
+      <button class="btn red">🔍 Check Flood Risk (All Cities)</button>
+    </form>
+
+    <form action="/city_weather" method="get">
+      <button class="btn blue">☁️ Check Weather by City</button>
+    </form>
+
+    <button onclick="toggleSupport()" class="btn green">💬 Customer Support</button>
+
+    <!-- 📚 FAQ Section -->
+    <div id="faq-section">
+      <label for="faq-select"><strong>Select a question:</strong></label>
+      <select id="faq-select" onchange="showAnswer()">
+        <option value="">-- Choose a question --</option>
+        <option value="q1">Will I get a flood alert before it happens?</option>
+        <option value="q2">How accurate is the flood prediction?</option>
+        <option value="q3">How do I register for flood alerts?</option>
+        <option value="q4">Will I be charged for receiving SMS alerts?</option>
+        <option value="q5">What should I do after getting a flood alert?</option>
+        <option value="q6">Can I choose the language of SMS alerts?</option>
+        <option value="q7">What data is used to make flood predictions?</option>
+        <option value="q8">Is my personal data secure?</option>
+        <option value="q9">How often is weather data updated?</option>
+        <option value="q10">Can I use this service in any city?</option>
+        <option value="q11">How can I update my phone number?</option>
+        <option value="q12">What if I don't receive alerts?</option>
+        <option value="q13">Do you send alerts for other disasters?</option>
+        <option value="q14">Can I manually check flood risk?</option>
+        <option value="q15">How do I contact technical support?</option>
+      </select>
+      <div id="faq-answer"></div>
+    </div>
+  </div>
+
+  <script>
+    function toggleSupport() {
+      const faq = document.getElementById("faq-section");
+      faq.style.display = faq.style.display === "none" ? "block" : "none";
+    }
+
+    function showAnswer() {
+      const value = document.getElementById("faq-select").value;
+      const answers = {
+        q1: "✅ Yes, our system sends SMS alerts before a flood is likely to occur.",
+        q2: "📊 Predictions are over 85% accurate, based on AI and historical weather data.",
+        q3: "📝 Registration is automatic via your phone and city. Manual sign-up is also available.",
+        q4: "💸 No cost to receive alerts. It's a public safety service.",
+        q5: "⚠️ Move to higher ground and follow emergency instructions.",
+        q6: "🌐 Yes, alerts can be sent in your preferred local language.",
+        q7: "📡 We use real-time rainfall, humidity, wind speed, and past flood data.",
+        q8: "🔒 Yes, your data is securely stored and not shared.",
+        q9: "⏱️ Weather updates are refreshed hourly.",
+        q10: "🗺️ Service is available in all major cities in India.",
+        q11: "📞 Contact support or re-register to update your phone number.",
+        q12: "📭 Check network/signal. If it persists, contact support.",
+        q13: "🌪️ We currently focus on floods. More hazards coming soon.",
+        q14: "🧠 Yes, use the 'Check Flood Risk' button above to run it manually.",
+        q15: "📬 Email or chat with our support team for technical issues."
+      };
+      document.getElementById("faq-answer").innerText = answers[value] || "";
+    }
+  </script>
+
+</body>
+</html>
